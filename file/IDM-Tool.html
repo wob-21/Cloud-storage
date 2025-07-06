@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>IDM 脚本选项说明</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --text-light: #1a1a1a;
+      --card-light: #f5f5f5;
+
+      --bg-dark: #1e1e1e;
+      --text-dark: #eeeeee;
+      --card-dark: #2a2a2a;
+
+      --gradient: linear-gradient(90deg, #1e90ff, #ff3b3b);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans SC", sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .container {
+      max-width: 920px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      background: var(--gradient);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: flow 8s ease-in-out infinite;
+      margin-bottom: 40px;
+    }
+
+    .option {
+      background: var(--card-light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, background 0.5s;
+    }
+
+    .dark-mode .option {
+      background: var(--card-dark);
+    }
+
+    .option:hover {
+      transform: scale(1.03);
+    }
+
+    .option h2 {
+      background: var(--gradient);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: flow 6s ease-in-out infinite;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: gray;
+      margin-top: 50px;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: #0078d7;
+      font-style: italic;
+    }
+
+    @keyframes flow {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
+    }
+
+    .toolbar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1001;
+    }
+
+    .toolbar button {
+      padding: 10px;
+      border-radius: 50%;
+      background: #0078d7;
+      color: white;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+
+    .controls button {
+      margin-left: 8px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #0078d7;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .sakura {
+      position: fixed;
+      top: -40px;
+      width: 40px;
+      height: 40px;
+      background-image: url('https://img.zhaotu.com/temp_ele/20240316/43d09fafaf0f14331d65bcc2c04dda9d.png');
+      background-size: cover;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button id="langBtn" onclick="toggleLang()">中/EN</button>
+  </div>
+
+  <div class="container">
+    <h1 id="title">IDM 脚本选项说明</h1>
+
+    <div class="option">
+      <h2 id="opt1">1. 激活 / Activation</h2>
+      <p id="desc1">此脚本应用注册表锁定方法来激活 Internet 下载管理器 （IDM）。此方法在激活 Internet IDM 更新时可以直接安装，而无需再次激活，激活后，如果在某些情况下，IDM 开始显示激活唠叨屏幕，则只需再次运行激活选项，而无需使用重置选项。</p>
+    </div>
+
+    <div class="option">
+      <h2 id="opt2">2. 冻结试用 / Freeze Trial</h2>
+      <p id="desc2">IDM 提供 30 天的试用期，您可以在脚本中使用此选项将此试用期锁定为终身，这样您就不必再次重置试用期，并且您的试用期不会过期。</p>
+    </div>
+
+    <div class="option">
+      <h2 id="opt3">3. 重置激活 / Reset Activation</h2>
+      <p id="desc3">Internet 下载管理器提供 30 天试用期，您可以随时使用此脚本重置此激活/试用期。如果 IDM 报告伪造序列号和其他类似错误，此选项也可用于恢复状态。</p>
+    </div>
+
+    <footer>
+      © <span id="yearText"></span> IDM TOOL | Powered by <a href="https://wobshare.us.kg/" target="_blank">𝓌𝑜𝒷</a>
+    </footer>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="document.body.classList.toggle('dark-mode')">🌓</button>
+    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">⬆️</button>
+  </div>
+
+  <script>
+    const startYear = 2023;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("yearText").innerText = `${startYear}–${currentYear}`;
+
+    let lang = "zh";
+    const data = {
+      zh: {
+        title: "IDM 脚本选项说明",
+        opt1: "1. 激活 / Activation",
+        desc1: "此脚本使用注册表锁定方法激活 IDM。更新后无需重新激活。如遇唠叨提示，可再次运行本选项。",
+        opt2: "2. 冻结试用 / Freeze Trial",
+        desc2: "将 IDM 的试用期永久锁定为 30 天。无需再次重置，更新后仍可使用。",
+        opt3: "3. 重置激活 / Reset Activation",
+        desc3: "可重置 IDM 状态，解决伪造序列号等问题，使其恢复正常试用期。",
+        btn: "中/EN"
+      },
+      en: {
+        title: "IDM Script Options",
+        opt1: "1. Activation",
+        desc1: "This script uses a registry method to activate IDM. No need to reactivate after updates. Run again if prompted.",
+        opt2: "2. Freeze Trial",
+        desc2: "Permanently locks IDM’s trial period at 30 days. No reset needed after updates.",
+        opt3: "3. Reset Activation",
+        desc3: "Resets IDM status and resolves fake serial issues.",
+        btn: "EN/中"
+      }
+    };
+
+    function toggleLang() {
+      lang = lang === "zh" ? "en" : "zh";
+      const c = data[lang];
+      document.getElementById("title").innerText = c.title;
+      document.getElementById("opt1").innerText = c.opt1;
+      document.getElementById("desc1").innerText = c.desc1;
+      document.getElementById("opt2").innerText = c.opt2;
+      document.getElementById("desc2").innerText = c.desc2;
+      document.getElementById("opt3").innerText = c.opt3;
+      document.getElementById("desc3").innerText = c.desc3;
+      document.getElementById("langBtn").innerText = c.btn;
+    }
+
+    // 动态生成樱花花瓣
+    function createSakura() {
+      const sakura = document.createElement("div");
+      sakura.className = "sakura";
+      sakura.style.left = Math.random() * 100 + "vw";
+      sakura.style.animationDuration = 6 + Math.random() * 4 + "s";
+      sakura.style.opacity = Math.random();
+      document.body.appendChild(sakura);
+      setTimeout(() => sakura.remove(), 10000);
+    }
+    setInterval(createSakura, 600);
+  </script>
+</body>
+</html>
